@@ -9,7 +9,7 @@ const userTypeDef=`#graphQl
 
  }
  type Query{
-    users: [User!]
+   
     authUser:User
     user(userId:ID!):User
  }
