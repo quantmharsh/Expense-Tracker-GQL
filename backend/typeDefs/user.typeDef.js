@@ -19,13 +19,13 @@ const userTypeDef=`#graphQl
     logout:LogOutResponse
  }
  input SignupInput{
-    userName: String!
+    username: String!
     name: String!
     password: String!
     gender: String!
  }
  input LoginInput{
-    userName: String!
+    username: String!
     password: String!
  }
  type LogOutResponse{

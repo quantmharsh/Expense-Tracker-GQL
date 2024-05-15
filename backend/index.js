@@ -19,8 +19,10 @@ import { configurePassport } from "./passport/passport.config.js";
 
 import { connectDB } from "./db/connectDB.js";
 import mongoose from "mongoose";
-
+// IMP- dont forgot to configure dotenv and configurepassport()  it becomes difficult to debug it
 dotenv.config();
+
+configurePassport();
 const app = express();
 const httpServer = http.createServer(app);
 
@@ -61,9 +63,9 @@ const server= new ApolloServer({
 });
 await server.start();
 app.use(
-    '/',
+    '/graphql',
     cors({
-      origin:"http://localhost:3000/",
+      origin:"http://localhost:3000",
       credentials:true
 
     }),
@@ -81,4 +83,4 @@ app.use(
   await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
   await connectDB();
   
-  console.log(`🚀 Server ready at http://localhost:4000/`);
+  console.log(`🚀 Server ready at http://localhost:4000/graphql`);

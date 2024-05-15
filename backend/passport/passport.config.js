@@ -5,7 +5,11 @@ import { GraphQLLocalStrategy } from "graphql-passport";
 export const configurePassport=async()=>{
     // using this to serialized the user using user.id 
     passport.serializeUser((user , done)=>{
-        console.log("serialized user")
+        console.log("serialized user" , user)
+        if (!user || !user.id) {
+            console.error("Serialization failed: User data is invalid.");
+            return done(new Error("Failed to serialize user into session"));
+        }
         done(null , user.id)
     })
     passport.deserializeUser(async(id,done)=>{
@@ -33,6 +37,7 @@ export const configurePassport=async()=>{
                         throw new  Error("Invalid username or password")
 
                         }
+                        return done(null, user);
                 
             } catch (error) {
                 return done(error)

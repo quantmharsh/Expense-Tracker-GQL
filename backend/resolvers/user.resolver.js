@@ -8,7 +8,7 @@ const userResolver={
         signUp:async(_ , {input} , context)=>{
             try {
 
-                const{username ,name ,password , gender }=input
+                const{username ,name ,password , gender }=input;
                 if(!username ||!name ||!password || !gender)
                     {
                         throw new Error("All field are required")
@@ -31,7 +31,9 @@ const userResolver={
 
                         })
                         await newUser.save();
+                        console.log("new user is", newUser)
                         await context.login(newUser);
+                        console.log("New User in user.resolver" , newUser)
                         return newUser;
 
             } catch (error) {
@@ -49,7 +51,7 @@ const userResolver={
                     {
                         throw new Error("All fields are required");
                     }
-                    const {user}=await context.authenticate("graphq-local" ,{username , password})
+                    const {user}=await context.authenticate("graphql-local" ,{username , password})
                     await context.login(user);
                     return user;
 
@@ -65,13 +67,13 @@ const userResolver={
         logout:async(_ ,__ , context)=>{
             try {
                 await context.logout();
-                 req.session.destroy((error)=>{
+                context.req.session.destroy((error)=>{
                     if(error)
                         {
                             throw new Error("Error...")
                         }
                  })
-                 req.clearCookie("connect.sid");
+                 context.res.clearCookie("connect.sid");
                  return {message:"User loggedout successfully..."};
                 
             } catch (error) {

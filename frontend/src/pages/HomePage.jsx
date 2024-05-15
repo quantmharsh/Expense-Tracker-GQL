@@ -5,6 +5,9 @@ import Cards from "../components/Cards";
 import TransactionForm from "../components/TransactionForm";
 
 import { MdLogout } from "react-icons/md";
+import toast from "react-hot-toast";
+import { useMutation } from "@apollo/client";
+import { LOGOUT } from "../graphql/mutations/user.mutation";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -25,11 +28,28 @@ const HomePage = () => {
 		],
 	};
 
-	const handleLogout = () => {
-		console.log("Logging out...");
+	// mutation for logout which we have created in user.mutation
+	// using refetch which is a 2nd argument . using it to go back to the login page and
+	//store cookies of new user who is going to login
+	const [logout,{loading ,error}]=useMutation(LOGOUT,
+		{
+			refetchQueries:["GetAuthenticatedUser"],
+		}
+	)
+	
+
+	const handleLogout = async() => {
+		try {
+			await logout();
+						
+		} catch (error) {
+			console.error("Error while logout" , error)
+			toast.error(error.message)
+			
+		}
 	};
 
-	const loading = false;
+	
 
 	return (
 		<>
