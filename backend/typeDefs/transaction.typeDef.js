@@ -29,7 +29,13 @@ input CreateTransactionInput{
 
 }
 input UpdateTransactionInput{
-    transactionId:ID!
+    transactionId: ID!
+    description: String
+    paymentType: String
+    category: String
+    amount: Float
+    location: String
+    date: String
 }
 `
 export default  transactionTypeDef;

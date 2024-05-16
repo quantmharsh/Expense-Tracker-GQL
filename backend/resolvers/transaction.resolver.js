@@ -52,7 +52,9 @@ const transactionResolver={
         ,
         updateTransaction:async(_,{input})=>{
             try {
+                console.log("before updating")
                 const updatedTransaction = await Transaction.findByIdAndUpdate(input.transactionId, input ,{new:true});
+                console.log("updated Transaction data in resolver" ,updatedTransaction)
                 return updatedTransaction;
             } catch (error) {
                 
