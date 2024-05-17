@@ -7,8 +7,9 @@ import { HiPencilAlt } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { formateDate } from "../utils/formateDate";
 import toast from "react-hot-toast"
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { DELETE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
+import { GET_AUTHENTICATED_USER } from "../graphql/queries/user.query";
 
 
 
@@ -30,11 +31,14 @@ const Card = ({ transaction}) => {
 	category= category[0]?.toUpperCase()+category.slice(1);
 	const formattedDate=formateDate(date);
 
+	// const{data:authUserData}=useQuery(GET_AUTHENTICATED_USER)
+	
+
 
 	//using mutation to delete 
  const[deleteTransaction , {loading ,error}]=useMutation(DELETE_TRANSACTION,
 	{
-		refetchQueries:["GetTransactions"]
+		refetchQueries:["GetTransactions" ,"GetTransactionStatistics"]
 	}
  )
 	const handleDelete=async()=>{

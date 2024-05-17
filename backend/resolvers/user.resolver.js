@@ -1,6 +1,7 @@
-import {users} from "../dummyData/data.js"
+import {transactions, users} from "../dummyData/data.js"
 import User from "../models/user.model.js"
 import bcrypt from 'bcryptjs'
+import Transaction from "../models/transaction.model.js"
 
 const userResolver={
     // input in mutation will be same as what we hve done in user.typedef.js
@@ -118,6 +119,21 @@ const userResolver={
             }
         }
     },
+    //adding user Transaction relationship. it is the type created by us
+    User:{
+        transactions:async(parent ,_,__)=>{
+            try {
+                const transactions= await Transaction.find({userId:parent._id})
+                return transactions;
+                
+            } catch (error) {
+                console.log("Error in user transaction resolver" , error);
+
+                
+                throw new Error(error.message ||"error getting user")
+            }
+        }
+    }
     
 }
 export default userResolver;

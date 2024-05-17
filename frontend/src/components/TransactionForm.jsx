@@ -6,7 +6,7 @@ const TransactionForm = () => {
 	// using mutation 
 const[createTransaction ,{loading ,error}]=	useMutation(CREATE_TRANSACTION,
 	{
-		refetchQueries:["GetTransactions"],
+		refetchQueries:["GetTransactions" ,"GetTransactionStatistics"],
 	}
 )
 	const handleSubmit = async (e) => {
