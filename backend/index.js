@@ -9,6 +9,7 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import dotenv from "dotenv";
+import path from "path";
 
 //for passport authentication
 import passport from "passport";
@@ -19,11 +20,16 @@ import { configurePassport } from "./passport/passport.config.js";
 
 import { connectDB } from "./db/connectDB.js";
 import mongoose from "mongoose";
+
 // IMP- dont forgot to configure dotenv and configurepassport()  it becomes difficult to debug it
 dotenv.config();
 
 configurePassport();
 const app = express();
+// for deployement 
+// its root of our application 
+const __dirname=path.resolve();
+
 const httpServer = http.createServer(app);
 
 // creating store
@@ -78,6 +84,14 @@ app.use(
       context: async ({ req , res}) => buildContext({req ,res}),
     }),
   );
+
+  // for deployment running both frontend and backend on same port
+  // when we run npm build then only dist foldeer will be created 
+  app.use(express.static(path.join(__dirname, "frontend/dist")))
+  // * means if we get request to any other route(Except /graphql) then react element will be rendered
+  app.get("*",(req ,res)=>{
+    res.sendFile(path.join(__dirname ,"frontend/dist" ,"index.html"))
+  })
   
   // Modified server startup
   await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));

@@ -30,8 +30,8 @@ const Card = ({ transaction}) => {
  
 	category= category[0]?.toUpperCase()+category.slice(1);
 	const formattedDate=formateDate(date);
-
-	// const{data:authUserData}=useQuery(GET_AUTHENTICATED_USER)
+ //FOR PROFILE PIC
+	const{data:authUserData}=useQuery(GET_AUTHENTICATED_USER)
 	
 
 
@@ -90,7 +90,7 @@ const Card = ({ transaction}) => {
 				<div className='flex justify-between items-center'>
 					<p className='text-xs text-black font-bold'>{formattedDate}</p>
 					<img
-						src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+						src={authUserData?.authUser.profilePicture}
 						className='h-8 w-8 border rounded-full'
 						alt=''
 					/>
